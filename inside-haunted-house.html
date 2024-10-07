@@ -1,1 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inside the Haunted House</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Creepster', cursive;
+            background-color: #000;
+            color: #fff;
+            overflow: hidden;
+        }
+        #inside-house {
+            width: 100%;
+            height: 100%;
+            background: url('/api/placeholder/1920/1080') no-repeat center center;
+            background-size: cover;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        h1 {
+            font-size: 48px;
+            text-shadow: 2px 2px 4px #ff0000;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 24px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        #ghost {
+            font-size: 100px;
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body>
+    <div id="inside-house">
+        <h1>Welcome to the Haunted House</h1>
+        <div id="ghost">👻</div>
+        <p>You've dared to enter the haunted house. Beware of the spirits that linger here, and listen closely for the whispers of the past. Your journey into the unknown begins now...</p>
+    </div>
 
+    <script>
+        function randomPosition(element) {
+            const maxX = window.innerWidth - element.clientWidth;
+            const maxY = window.innerHeight - element.clientHeight;
+            element.style.position = 'absolute';
+            element.style.left = Math.random() * maxX + 'px';
+            element.style.top = Math.random() * maxY + 'px';
+        }
+
+        const ghost = document.getElementById('ghost');
+        setInterval(() => randomPosition(ghost), 5000);
+
+        document.addEventListener('click', () => {
+            const audio = new Audio('https://freesound.org/data/previews/380/380015_1326576-lq.mp3');
+            audio.play();
+        });
+    </script>
+</body>
+</html>
