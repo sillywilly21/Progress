@@ -141,7 +141,8 @@
         setInterval(flashLightning, 10000 + Math.random() * 20000);
 
         enterButton.addEventListener('click', () => {
-            alert('You have entered the Haunted House. Beware of what lurks in the shadows!');
+            // Redirect to the new page
+            window.location.href = 'inside-haunted-house.html';
         });
 
         document.addEventListener('mousemove', (e) => {
