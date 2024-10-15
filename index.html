@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Expanse</title>
+    
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            color: #fff;
+            overflow: hidden;
+        }
+        #haunted-house {
+            width: 100%;
+            height: 100%;
+            background: url('IMG_0107.webp') no-repeat center center;
+            background-size: cover;
+            position: relative;
+        }
+        .window {
+            position: absolute;
+            width: 50px;
+            height: 80px;
+            background-color: rgba(255, 255, 0, 0.2);
+            border: 2px solid #444;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #window1 { top: 30%; left: 20%; }
+        #window2 { top: 40%; left: 40%; }
+        #window3 { top: 25%; left: 60%; }
+        .ghost {
+            position: absolute;
+            font-size: 40px;
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+        #title {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 48px;
+            text-shadow: 2px 2px 4px #ff0000;
+            font-family: 'Arial', sans-serif;
+        }
+        #enter-button {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            font-size: 24px;
+            font-family: 'Arial', sans-serif;
+            background-color: rgba(139, 0, 0, 0.5);
+            color: #fff;
+            border: 2px solid #fff;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+        #enter-button:hover {
+            background-color: rgba(178, 34, 34, 0.7);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            transform: translateX(-50%) translateY(-3px);
+        }
+        #enter-button:active {
+            transform: translateX(-50%) translateY(-1px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+        .lightning {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+    <div id="haunted-house">
+        <a id="title" href="https://hack.club/boba-manor">Open the door</a>
+        <div id="window1" class="window"></div>
+        <div id="window2" class="window"></div>
+        <div id="window3" class="window"></div>
+        <button id="enter-button">Enter The Expanse</button>
+    </div>
+    <div class="lightning"></div>
+
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+    <script>
+        const windows = document.querySelectorAll('.window');
+        const enterButton = document.getElementById('enter-button');
+        const lightning = document.querySelector('.lightning');
+
+        const thunderSound = new Howl({
+            src: ['lightning-sound-effect-128-ytshorts.savetube.me.mp3']
+        });
+
+        const ghostSound = new Howl({
+            src: ['https://freesound.org/data/previews/380/380015_1326576-lq.mp3']
+        });
+
+        function createGhost(window) {
+            const ghost = document.createElement('div');
+            ghost.classList.add('ghost');
+            ghost.innerHTML = '👻';
+            ghost.style.left = `${window.offsetLeft + window.offsetWidth / 2}px`;
+            ghost.style.top = `${window.offsetTop + window.offsetHeight / 2}px`;
+            document.body.appendChild(ghost);
+            return ghost;
+        }
+
+        windows.forEach(window => {
+            window.addEventListener('click', () => {
+                const ghost = createGhost(window);
+                ghost.style.opacity = '1';
+                ghostSound.play();
+                setTimeout(() => {
+                    ghost.style.opacity = '0';
+                    setTimeout(() => {
+                        ghost.remove();
+                    }, 500);
+                }, 1000);
+            });
+        });
+
+        function flashLightning() {
+            lightning.style.opacity = '0.8';
+            setTimeout(() => {
+                lightning.style.opacity = '0';
+            }, 50);
+            setTimeout(() => {
+                lightning.style.opacity = '0.8';
+            }, 100);
+            setTimeout(() => {
+                lightning.style.opacity = '0';
+            }, 150);
+            thunderSound.play();
+        }
+
+        setInterval(flashLightning, 10000 + Math.random() * 20000);
+
+        enterButton.addEventListener('click', () => {
+            // Redirect to the new page
+            window.location.href = 'inside-haunted-house.html';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            document.body.style.backgroundPosition = `${50 + mouseX * 10}% ${50 + mouseY * 10}%`;
+        });
+    </script>
+</body>
+</html>
