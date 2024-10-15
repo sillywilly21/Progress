@@ -127,6 +127,7 @@
 
         function flashLightning() {
             lightning.style.opacity = '0.8';
+            thunderSound.play(); // Play the thunder sound when lightning flashes
             setTimeout(() => {
                 lightning.style.opacity = '0';
             }, 50);
@@ -136,7 +137,6 @@
             setTimeout(() => {
                 lightning.style.opacity = '0';
             }, 150);
-            thunderSound.play();
         }
 
         setInterval(flashLightning, 10000 + Math.random() * 20000);
